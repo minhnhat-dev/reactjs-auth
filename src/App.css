@@ -1,42 +1,50 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.app {
+  background: rgb(249, 250, 251);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+* {
+  box-sizing: border-box;
+  /* outline: 1px solid rgba(46, 139, 86, 0.33); */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.btn {
+  border: 2px solid rgb(204, 204, 204);
+  color: rgba(0, 0, 0, 0.54);
+  min-width: 120px; /* ?? */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input[type=text],
+input[type=email],
+input[type=password]
+ {
+  outline: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+::placeholder {
+  /* color: rgb(211, 47, 47); */
+  opacity: 1; /* Firefox */
 }
 
-.card {
-  padding: 2em;
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  /* color: rgb(211, 47, 47); */
 }
 
-.read-the-docs {
-  color: #888;
+::-ms-input-placeholder { /* Microsoft Edge */
+  /* color: rgb(211, 47, 47); */
+}
+
+.mr-l-3 {
+  margin-left: 30px;
+}
+
+.mr-r-3 {
+  margin-right: 30px;
+}
+
+.error {
+  color: rgb(211, 47, 47);
 }

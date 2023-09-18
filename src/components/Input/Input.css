@@ -1,0 +1,8 @@
+.form_item {
+    border-radius: 2px;
+    padding: 20px;
+    width: 100%;
+    margin-bottom: 30px;
+    font-size: 15px;
+    border: 2px solid rgb(204, 204, 204);
+}
