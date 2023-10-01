@@ -16,17 +16,25 @@ const Input: FC<InputProps> = ({
     placeholder,
     validate
 }) => {
-    const { formValues, setFormValues, errors, onValidate, onValidateByFunction, setFormValidates } = useContext(FormContext)
+    const { registerFormItem, unRegisterFormItem, formValues, setFormValues, errors, onValidate, onValidateByFunction, setFormValidates } = useContext(FormContext)
     useEffect(() => {
         if(validate) {
-            setFormValidates((pre) => (
+            setFormValidates((preValues) => (
                 {
-                    ...pre,
+                    ...preValues,
                     [name]: validate
                 }
             ))
         }
-    }, [])
+    }, [validate])
+
+    useEffect(() => {
+        if(name) {
+            registerFormItem(name)
+        }
+        return () => unRegisterFormItem(name)
+    }, [name])
+
     return (
         <div className="container__wrapper__form__inputs__input-items">
             <label htmlFor="">{label}</label>

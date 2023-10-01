@@ -6,6 +6,8 @@ import Form from '../Form/Form'
 import Profile from '../../pages/Profile/Profile'
 import Checkbox from '../Checkbox/Checkbox'
 import { ObjectValues } from '../../context'
+import Field from '../Input/Field'
+
 const validateEmail = (value: string) => {
   const regex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
   if(!value) return "Email is required"
@@ -24,11 +26,24 @@ const validateConfirmPassword = (value: string, formValues?: ObjectValues ) => {
   if(password !== value) return "Password and Confirm Password does not match."
   return ''
 }
+
+const validateName = (value: string) => {
+  if(!value) return "Name is required"
+  return ''
+}
+
+const validateYourName = (value: string) => {
+  if(!value) return "Your name is required"
+  return ''
+}
+
+
 const Login = () => {
   const initiateValues = {
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    count: ""
   }
   const [isValid, setIsValid] = useState<boolean>(false)
   return isValid ? <Profile></Profile> : (
@@ -61,7 +76,7 @@ const Login = () => {
               const result = await response.json()
               if(result.id) {
                return setIsValid(true)
-              }
+              } 
               setIsValid(false)
               alert(result.error)
             }}
@@ -91,6 +106,37 @@ const Login = () => {
                   placeholder="Confirm Password"
                   validate={validateConfirmPassword}
                 />
+
+                 <Input
+                  type={'text'}
+                  label={''}
+                  name={'count'}
+                  placeholder="Your names"
+                  validate={validateYourName}
+                />
+
+                <Field name="count">
+                  {({formValues}) => {
+                    return (
+                      [...new Array(Number(formValues.count))].map((x, index) => <Input
+                      key={x}
+                      type={'text'}
+                      label={''}
+                      name={`name_${index}`}
+                      placeholder={`Your name ${index}`}
+                      validate={validateName}
+                    />)
+                    )
+                  }}
+                </Field>
+                {/* { [...new Array(count)].map((x, index)=>  <Input
+                  type={'text'}
+                  label={''}
+                  name={'name'+index}
+                  placeholder="Your family members"
+                
+                />)}
+                */}
              </div>
              <div className="container__wrapper__form__remember">
                 <Checkbox/>

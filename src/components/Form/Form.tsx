@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { FormContext, ValidateFunction, ObjectValues, ValidateType } from '../../context'
+import { FormContext, ValidateFunction, ObjectValues, ValidateType, FuncValidateType } from '../../context'
 
 type FormProps = {
     children: React.ReactNode,
@@ -12,11 +12,29 @@ type FormProps = {
 const Form: FC<FormProps> = ({ children, onSubmit, initiateValues, validate}) => {
      const [errors, setErrors] = useState({})
      const [formValues, setFormValues] = useState(initiateValues)
-     const [formValidates, setFormValidates] = useState(initiateValues)
-     
-     const onValidate = (name: string) => {
+     const [formValidates, setFormValidates] = useState<FuncValidateType>({})
+
+     const registerFormItem = (name: string) => {
+        setFormValues((preValues) => ({
+            ...preValues,
+            [name]: ''
+        }))
+     }
+     const unRegisterFormItem = (name: string) => {
+        setFormValues((preValues) => {
+            const newValues = {...preValues}
+            delete newValues[name]
+            return newValues
+        })
+        setFormValidates((preValues) => {
+            const newFormValidates= {...preValues}
+            delete newFormValidates[name]
+            return newFormValidates
+        })
+     }
+     const onValidate = (name: string): string => {
         console.log('validate', validate)
-        if(!validate) return
+        if(!validate) return ''
         const error = validate[name]?.(formValues[name], formValues)
         console.log('error', error)
         if(error) {
@@ -33,10 +51,7 @@ const Form: FC<FormProps> = ({ children, onSubmit, initiateValues, validate}) =>
         return error
      }
      const onValidateByFunction = (name: string, func: ValidateFunction) => {
-        console.log('validate', validate)
-        if(!validate) return
         const error = func(formValues[name], formValues)
-        console.log('error', error)
         if(error) {
          setErrors(preValue => ({
              ...preValue,
@@ -51,7 +66,6 @@ const Form: FC<FormProps> = ({ children, onSubmit, initiateValues, validate}) =>
         return error
      }
 
-     console.log('formValues', formValues)
      return (
         <FormContext.Provider value={{
             formValues,
@@ -60,13 +74,29 @@ const Form: FC<FormProps> = ({ children, onSubmit, initiateValues, validate}) =>
             setFormValues,
             onValidate,
             onValidateByFunction,
+            setFormValidates,
             formValidates,
-            setFormValidates
+            registerFormItem,
+            unRegisterFormItem
         }}>
             <form onSubmit={(e) => {
+                const validateError: Record<string, string> = {}
                 e.preventDefault();
                 //validate
-                const fields = Object.keys(formValidates)
+                const fields = Object.keys(formValues)
+                fields.forEach((field: string) => {
+                    let error = ''
+                    if(formValidates[field]) {
+                        error = onValidateByFunction(field, formValidates[field])
+                    } else {
+                        error = onValidate(field)
+                    }
+                    if(error) {
+                        validateError[field] = error
+                    }
+                })
+                const isInvalid = Object.keys(validateError).length > 0
+                if(isInvalid) return 
                 onSubmit(formValues)
             }}>
                 {children}

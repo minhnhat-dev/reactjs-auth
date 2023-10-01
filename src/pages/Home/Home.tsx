@@ -4,8 +4,9 @@ import './Home.css'
 function Home() {
   return (
     <div className='home'>
-      <Login></Login>
+          <Login></Login>
     </div>
   )
 }
 export default Home
+

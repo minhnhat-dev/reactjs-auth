@@ -14,5 +14,9 @@ export type FormValueType = {
     setFormValues: Dispatch<SetStateAction<ObjectValues>>,
     onValidate: (value: string, formValues?: ObjectValues) => void,
     onValidateByFunction: (name: string, func: ValidateFunction, formValues?: ObjectValues) => void,
+    setFormValidates: Dispatch<SetStateAction<FuncValidateType>>,
+    formValidates: FuncValidateType,
+    registerFormItem: (name: string) => void,
+    unRegisterFormItem: (name: string) => void,
 }
 export const FormContext = createContext({} as FormValueType)
