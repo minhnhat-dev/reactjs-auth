@@ -51,6 +51,7 @@ const Input: FC<InputProps> = ({
                       [name]: e.target.value
                     }))
                    }}
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 onBlur={(e) => {
                     if(validate) {
                         return onValidateByFunction(name, validate)

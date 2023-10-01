@@ -1,4 +1,4 @@
-import React, {  useState  } from 'react'
+import {  useState  } from 'react'
 import './Login.css'
 import Logo from '../../assets/logo.png'
 import Input from '../Input/Input'
